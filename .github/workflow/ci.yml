@@ -1,0 +1,36 @@
+name: Demo CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  ci-test:
+    name: Mức 1 - CI (Unit Test)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cài thư viện và chạy kiểm thử
+        run: |
+          pip install -r requirements.txt
+          pytest -v
+
+  cd-docker-build:
+    name: Mức 2 - CD (Build Docker)
+    needs: ci-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Đóng gói Docker Image
+        run: docker build -t demo-ci-cd-app:latest .
