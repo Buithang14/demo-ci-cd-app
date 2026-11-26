@@ -10,14 +10,14 @@ pipeline {
         stage('Mức 1 - CI (Unit Test)') {
             steps {
                 // Nếu Jenkins cài trực tiếp trên Windows, đổi 'sh' thành 'bat'
-                sh 'pip install -r requirements.txt'
-                sh 'pytest -v'
+                bat 'pip install -r requirements.txt'
+                bat 'pytest -v'
             }
         }
         stage('Mức 2 - CD (Build Docker)') {
             steps {
                 // Nếu Jenkins cài trực tiếp trên Windows, đổi 'sh' thành 'bat'
-                sh 'docker build -t demo-ci-cd-app:latest .'
+                bat 'docker build -t demo-ci-cd-app:latest .'
             }
         }
     }
